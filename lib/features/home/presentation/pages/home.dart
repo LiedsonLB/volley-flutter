@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:volleyapp/components/button_layout.dart';
+
 import 'package:volleyapp/core/constants/colors.dart';
-import 'package:volleyapp/core/network/api_clients.dart';
-import 'package:volleyapp/features/home/data/models/team_data_model.dart';
+import 'package:volleyapp/features/home/data/repositories/team_repository_impl.dart';
+import 'package:volleyapp/features/home/domain/usecases/add_team.dart';
 import 'package:volleyapp/features/home/presentation/controllers/teams_controller.dart';
 import 'package:volleyapp/features/home/presentation/widgets/button_add_teams.dart';
 import 'package:volleyapp/features/home/presentation/widgets/container_teams.dart';
-
 import 'package:volleyapp/features/home/presentation/widgets/header.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,6 +20,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late String team1;
   late String team2;
+
+  final AddTeam addTeam = AddTeam(TeamRepositoryImpl());
 
   final _teamController = TeamController();
 
@@ -40,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             const Header(),
             const SizedBox(height: 50.0),
-            const ContainerTeams(),
+            ContainerTeams(),
             const SizedBox(height: 70.0),
             Column(
               children: [
@@ -81,8 +84,7 @@ class _HomePageState extends State<HomePage> {
             context,
             (name, players) {
               setState(() {
-                ApiClients.getTeams()
-                    .add(TeamData(name: name, players: players));
+                addTeam(name, players);
               });
             },
           );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:volleyapp/core/constants/colors.dart';
 import 'package:volleyapp/features/home/presentation/widgets/modals/alert_modal.dart';
 
@@ -27,7 +28,11 @@ class _ModalAddTeamsState extends State<ModalAddTeams> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return const AlertModal(title: 'Campos não preenchidos', content: 'Por favor preencha todas os campos corretamente.', buttonText: 'Entendi');
+          return const AlertModal(
+            title: 'Campos não preenchidos',
+            content: 'Por favor preencha todas os campos corretamente.',
+            buttonText: 'Entendi',
+          );
         },
       );
     }

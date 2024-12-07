@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:volleyapp/features/home/domain/entities/team.dart';
 
 class TeamCard extends StatelessWidget {
-  final String name;
-  final int players;
+  final Team team;
 
   const TeamCard({
     super.key,
-    required this.name,
-    required this.players,
+    required this.team,
   });
 
   @override
@@ -18,7 +17,7 @@ class TeamCard extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            name,
+            team.name,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             textAlign: TextAlign.end,
@@ -36,7 +35,7 @@ class TeamCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              '$players',
+              '$team.players',
               style: const TextStyle(
                 fontFamily: 'ConcertOne',
                 fontSize: 46.0,
