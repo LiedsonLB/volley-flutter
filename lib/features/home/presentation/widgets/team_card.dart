@@ -35,7 +35,7 @@ class TeamCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              '$team.players',
+              team.players.toString(),
               style: const TextStyle(
                 fontFamily: 'ConcertOne',
                 fontSize: 46.0,

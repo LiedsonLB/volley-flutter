@@ -93,11 +93,11 @@ class _ModalSelectTeamsState extends State<ModalSelectTeams> {
 
                   final teams = snapshot.data!;
                   return DropdownButton<String>(
-                    value: selectedTeam1,
+                    value: selectedTeam2,
                     hint: const Text('Selecione o time 2'),
                     onChanged: (String? newValue) {
                       setState(() {
-                        selectedTeam1 = newValue;
+                        selectedTeam2 = newValue;
                       });
                     },
                     items: teams.map<DropdownMenuItem<String>>((team) {

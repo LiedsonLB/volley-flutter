@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:volleyapp/features/home/presentation/pages/modals/modal_add_teams.dart';
 
-import 'package:volleyapp/features/home/presentation/widgets/modals/add_team_modal.dart';
-import 'package:volleyapp/features/home/presentation/widgets/modals/selection_teams_modal.dart';
+import 'package:volleyapp/features/home/presentation/pages/modals/modal_select_teams.dart';
 
 class TeamController {
   void showAddTeamModal(
@@ -11,8 +11,10 @@ class TeamController {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ModalAddTeams(
-          onAddTeam: onAddTeam,
+        return Material(
+          child: ModalAddTeams(
+            onAddTeam: onAddTeam,
+          ),
         );
       },
     );
