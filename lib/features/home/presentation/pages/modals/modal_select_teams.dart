@@ -4,6 +4,7 @@ import 'package:volleyapp/components/button_layout.dart';
 import 'package:volleyapp/features/home/data/repositories/team_repository_impl.dart';
 import 'package:volleyapp/features/home/domain/entities/team.dart';
 import 'package:volleyapp/features/home/domain/usecases/get_teams.dart';
+import 'package:volleyapp/features/home/presentation/controllers/teams_controller.dart';
 
 class ModalSelectTeams extends StatefulWidget {
   final Function(String, String) onTeamsSelected;
@@ -21,6 +22,7 @@ class _ModalSelectTeamsState extends State<ModalSelectTeams> {
   String? selectedTeam2;
 
   GetTeams getTeams = GetTeams(TeamRepositoryImpl());
+  final teamController = TeamController();
 
   void _confirmSelection() {
     if (selectedTeam1 != null &&
@@ -28,7 +30,7 @@ class _ModalSelectTeamsState extends State<ModalSelectTeams> {
         selectedTeam1 != selectedTeam2) {
       widget.onTeamsSelected(selectedTeam1!, selectedTeam2!);
       Navigator.of(context).pop();
-      widget.startGame();
+      teamController.startGame(context, selectedTeam1!, selectedTeam2!);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Selecione dois times diferentes.")),

@@ -25,14 +25,6 @@ class _HomePageState extends State<HomePage> {
 
   final _teamController = TeamController();
 
-  // void _startGame() {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //         builder: (context) => GamePage(team1: team1, team2: team2)),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +60,6 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                       () {},
-                      //_startGame
                     );
                   },
                   text: 'Selecionar Times',
