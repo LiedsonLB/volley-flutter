@@ -115,7 +115,7 @@ class _ModalSelectTeamsState extends State<ModalSelectTeams> {
                 const SizedBox(height: 30.0),
                 ButtonLayout(
                   onPressed: _confirmSelection,
-                  text: 'Iniciar Jogo',
+                  text: 'Confirmar',
                 ),
               ],
             ),

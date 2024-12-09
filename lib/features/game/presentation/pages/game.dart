@@ -9,7 +9,7 @@ import 'package:volleyapp/features/game/presentation/widgets/points_layout.dart'
 import 'package:volleyapp/features/game/presentation/widgets/scoreboard_button.dart';
 import 'package:volleyapp/features/game/presentation/widgets/teams_layout.dart';
 import 'package:volleyapp/features/game/presentation/widgets/timer.dart';
-import 'package:volleyapp/features/home/presentation/pages/home.dart';
+import 'package:volleyapp/features/history/presentation/pages/history.dart';
 
 class GamePage extends StatefulWidget {
   final String team1;
@@ -49,10 +49,10 @@ class _GamePageState extends State<GamePage> {
     timerController.stopTimer();
   }
 
-  void _overAllPage() {
+  void _historyPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
+      MaterialPageRoute(builder: (context) => const HistoryPage()),
     );
   }
 
@@ -94,7 +94,7 @@ class _GamePageState extends State<GamePage> {
           Flexible(
             flex: 1,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
@@ -156,14 +156,14 @@ class _GamePageState extends State<GamePage> {
                     return TimerLayout(time: time);
                   },
                 ),
-                ScoreBoardButton(onPressed: _overAllPage),
+                ScoreBoardButton(onPressed: _historyPage),
               ],
             ),
           ),
           Flexible(
             flex: 1,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(

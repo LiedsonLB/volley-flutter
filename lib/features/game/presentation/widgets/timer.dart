@@ -18,7 +18,7 @@ class TimerLayout extends StatelessWidget {
                 Text(
                   'Tempo de Jogo: $time',
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     color: Colors.white,
                   ),
                 ),

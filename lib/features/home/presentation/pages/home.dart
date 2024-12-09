@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                       () {},
                     );
                   },
-                  text: 'Selecionar Times',
+                  text: 'Iniciar',
                 ),
               ],
             )
