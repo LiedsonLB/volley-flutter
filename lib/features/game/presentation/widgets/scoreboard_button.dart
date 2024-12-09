@@ -22,10 +22,10 @@ class ScoreBoardButton extends StatelessWidget {
                 width: 2,
                 style: BorderStyle.solid,
               ),
-              backgroundColor: AppColors.darkBlue,
+              backgroundColor: AppColors.deepBlue,
               foregroundColor: AppColors.white,
               padding:
-              const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
             ),
             onPressed: onPressed,
             child: const Text(

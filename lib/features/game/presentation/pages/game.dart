@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:volleyapp/core/constants/colors.dart';
+import 'package:volleyapp/features/game/presentation/controllers/scoreboard_controller.dart';
 
 import 'package:volleyapp/features/game/presentation/controllers/timer_controller.dart';
 import 'package:volleyapp/features/game/presentation/widgets/action_button.dart';
@@ -22,10 +23,16 @@ class GamePage extends StatefulWidget {
 
 class _GamePageState extends State<GamePage> {
   TimerController timerController = TimerController();
+  late ScoreboardController scoreboardController;
 
   @override
   void initState() {
     super.initState();
+    scoreboardController = ScoreboardController(
+      team1: widget.team1,
+      team2: widget.team2,
+    );
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
@@ -96,22 +103,30 @@ class _GamePageState extends State<GamePage> {
                     children: [
                       ActionButton(
                         name: 'Ace',
-                        onPressed: () {},
+                        onPressed: () {
+                          scoreboardController.addPointTeam1(true);
+                        },
                         isLeft: false,
                       ),
                       ActionButton(
-                        name: 'Ataque',
-                        onPressed: () {},
+                        name: 'Attack',
+                        onPressed: () {
+                          scoreboardController.addPointTeam1(true);
+                        },
                         isLeft: false,
                       ),
                       ActionButton(
-                        name: 'Bloqueio',
-                        onPressed: () {},
+                        name: 'Block',
+                        onPressed: () {
+                          scoreboardController.addPointTeam1(true);
+                        },
                         isLeft: false,
                       ),
                       ActionButton(
-                        name: 'Erro',
-                        onPressed: () {},
+                        name: 'Error',
+                        onPressed: () {
+                          scoreboardController.addPointTeam1(false);
+                        },
                         isLeft: false,
                       ),
                     ],
@@ -130,7 +145,11 @@ class _GamePageState extends State<GamePage> {
                   firstTeam: widget.team1,
                   secondTeam: widget.team2,
                 ),
-                const PointsLayout(),
+                PointsLayout(
+                  team1: widget.team1,
+                  team2: widget.team2,
+                  scoreboardController: scoreboardController,
+                ),
                 ValueListenableBuilder<String>(
                   valueListenable: timerController.time,
                   builder: (context, time, child) {
@@ -155,19 +174,31 @@ class _GamePageState extends State<GamePage> {
                     children: [
                       ActionButton(
                         name: 'Ace',
-                        onPressed: () {},
+                        onPressed: () {
+                          scoreboardController.addPointTeam1(false);
+                        },
+                        isLeft: true,
                       ),
                       ActionButton(
-                        name: 'Ataque',
-                        onPressed: () {},
+                        name: 'Attack',
+                        onPressed: () {
+                          scoreboardController.addPointTeam1(false);
+                        },
+                        isLeft: true,
                       ),
                       ActionButton(
-                        name: 'Bloqueio',
-                        onPressed: () {},
+                        name: 'Block',
+                        onPressed: () {
+                          scoreboardController.addPointTeam1(false);
+                        },
+                        isLeft: true,
                       ),
                       ActionButton(
-                        name: 'Erro',
-                        onPressed: () {},
+                        name: 'Error',
+                        onPressed: () {
+                          scoreboardController.addPointTeam1(true);
+                        },
+                        isLeft: true,
                       ),
                     ],
                   ),

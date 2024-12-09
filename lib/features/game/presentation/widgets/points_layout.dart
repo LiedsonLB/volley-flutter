@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:volleyapp/features/game/presentation/controllers/scoreboard_controller.dart';
 
 class PointsLayout extends StatefulWidget {
-  const PointsLayout({Key? key}) : super(key: key);
+  final String team1;
+  final String team2;
+  final ScoreboardController scoreboardController;
+
+  const PointsLayout({
+    Key? key,
+    required this.team1,
+    required this.team2,
+    required this.scoreboardController,
+  }) : super(key: key);
 
   @override
   State<PointsLayout> createState() => _PointsLayoutState();
@@ -14,7 +23,7 @@ class _PointsLayoutState extends State<PointsLayout> {
   @override
   void initState() {
     super.initState();
-    scoreboardController = ScoreboardController();
+    scoreboardController = widget.scoreboardController;
   }
 
   @override
@@ -45,24 +54,41 @@ class _PointsLayoutState extends State<PointsLayout> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Visibility(
-                        visible: scoreboardController.team1IsPlaying,
-                        maintainSize: true,
-                        maintainAnimation: true,
-                        maintainState: true,
-                        child: Image.asset(
-                          'assets/images/ball.png',
-                          width: 30,
-                          height: 30,
-                        ),
+                      ValueListenableBuilder<bool>(
+                        valueListenable:
+                            scoreboardController.team1IsPlayingNotifier,
+                        builder: (context, isPlaying, child) {
+                          return AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            child: Visibility(
+                              key: ValueKey<bool>(isPlaying),
+                              visible: isPlaying,
+                              maintainSize: true,
+                              maintainAnimation: true,
+                              maintainState: true,
+                              child: Image.asset(
+                                'assets/images/ball.png',
+                                key: ValueKey<bool>(isPlaying),
+                                width: 30,
+                                height: 30,
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      Text(
-                        scoreboardController.team1Points.toString(),
-                        style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                      ValueListenableBuilder<int>(
+                        valueListenable:
+                            scoreboardController.team1PointsNotifier,
+                        builder: (context, points, child) {
+                          return Text(
+                            points.toString(),
+                            style: const TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -87,24 +113,41 @@ class _PointsLayoutState extends State<PointsLayout> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Visibility(
-                        visible: !scoreboardController.team1IsPlaying,
-                        maintainSize: true,
-                        maintainAnimation: true,
-                        maintainState: true,
-                        child: Image.asset(
-                          'assets/images/ball.png',
-                          width: 30,
-                          height: 30,
-                        ),
+                      ValueListenableBuilder<bool>(
+                        valueListenable:
+                            scoreboardController.team1IsPlayingNotifier,
+                        builder: (context, isPlaying, child) {
+                          return AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            child: Visibility(
+                              key: ValueKey<bool>(isPlaying),
+                              visible: !isPlaying,
+                              maintainSize: true,
+                              maintainAnimation: true,
+                              maintainState: true,
+                              child: Image.asset(
+                                'assets/images/ball.png',
+                                key: ValueKey<bool>(isPlaying),
+                                width: 30,
+                                height: 30,
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      Text(
-                        scoreboardController.team2Points.toString(),
-                        style: const TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                      ValueListenableBuilder<int>(
+                        valueListenable:
+                            scoreboardController.team2PointsNotifier,
+                        builder: (context, points, child) {
+                          return Text(
+                            points.toString(),
+                            style: const TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

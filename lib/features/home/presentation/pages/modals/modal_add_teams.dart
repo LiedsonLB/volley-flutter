@@ -28,7 +28,7 @@ class _ModalAddTeamsState extends State<ModalAddTeams> {
 
     if (name.isNotEmpty && players != null) {
       addTeam(name, players);
-      
+
       Navigator.pop(context);
     } else {
       showDialog<void>(
