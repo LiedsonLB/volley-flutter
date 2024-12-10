@@ -1,30 +1,37 @@
 import 'package:volleyapp/core/data/database_service.dart';
-import 'package:volleyapp/features/game/data/models/game_history.dart';
+import 'package:volleyapp/features/history/data/models/game_history.dart';
 
 class ApiDatabase {
-  Future<List<GameSave>> fetchGameHistory() async {
-    List<Map<String, dynamic>> gameHistoryData = await DatabaseService.instance.fetchGameHistory();
+  final DatabaseService _databaseService = DatabaseService.instance;
 
-    return List.generate(gameHistoryData.length, (i) {
-      return GameSave.fromMap(gameHistoryData[i]);
-    });
+  Future<List<GameSave>> fetchGameHistory() async {
+    try {
+      final gameHistoryData = await _databaseService.fetchGameHistory();
+      return gameHistoryData;
+    } catch (e) {
+      throw Exception('Erro ao recuperar o histórico de jogos: $e');
+    }
   }
 
-  Future<void> saveGame(GameSave gameSave) async {
-    await DatabaseService.instance.saveGame(
-      winner: gameSave.winner,
-      team1Name: gameSave.team1Name,
-      team2Name: gameSave.team2Name,
-      team1Aces: gameSave.team1Aces,
-      team2Aces: gameSave.team2Aces,
-      team1Attacks: gameSave.team1Attacks,
-      team2Attacks: gameSave.team2Attacks,
-      team1Blocks: gameSave.team1Blocks,
-      team2Blocks: gameSave.team2Blocks,
-      team1Errors: gameSave.team1Errors,
-      team2Errors: gameSave.team2Errors,
-      gameTime: gameSave.gameTime,
-      date: gameSave.date,
-    );
+  Future<int> saveGame(GameSave gameSave) async {
+    try {
+      final gameId = await _databaseService.saveGame(gameSave);
+      print('Jogo salvo com sucesso! ID: $gameId');
+      return gameId;
+    } catch (e) {
+      throw Exception('Erro ao salvar o jogo: $e');
+    }
+  }
+
+  Future<void> saveSet(int gameId, Map<String, dynamic> set) async {
+    print('Salvando set para o jogo ID $gameId');
+    print('dados do set: $set');
+
+    try {
+      await _databaseService.saveSet(gameId, set);
+      print('Set salvo com sucesso para o jogo ID $gameId');
+    } catch (e) {
+      throw Exception('Erro ao salvar o set: $e');
+    }
   }
 }

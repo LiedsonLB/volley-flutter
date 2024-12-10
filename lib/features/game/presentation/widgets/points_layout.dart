@@ -7,11 +7,11 @@ class PointsLayout extends StatefulWidget {
   final ScoreboardController scoreboardController;
 
   const PointsLayout({
-    Key? key,
+    super.key,
     required this.team1,
     required this.team2,
     required this.scoreboardController,
-  }) : super(key: key);
+  });
 
   @override
   State<PointsLayout> createState() => _PointsLayoutState();

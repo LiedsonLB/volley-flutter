@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:volleyapp/core/constants/colors.dart';
+import 'package:volleyapp/core/network/api_database.dart';
 import 'package:volleyapp/features/game/presentation/controllers/scoreboard_controller.dart';
 
 import 'package:volleyapp/features/game/presentation/controllers/timer_controller.dart';
@@ -50,6 +51,7 @@ class _GamePageState extends State<GamePage> {
   }
 
   void _historyPage() {
+    print(ApiDatabase().fetchGameHistory());
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const HistoryPage()),

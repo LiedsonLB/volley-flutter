@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:volleyapp/core/constants/colors.dart';
 
 class AppBarHistory extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarHistory({Key? key}) : super(key: key);
+  const AppBarHistory({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
