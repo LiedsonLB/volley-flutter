@@ -16,26 +16,28 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15.0),
+      padding: const EdgeInsets.only(bottom: 25.0),
       child: Row(
-        mainAxisAlignment: isLeft ? MainAxisAlignment.end : MainAxisAlignment.start,
-        crossAxisAlignment: isLeft ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        mainAxisAlignment:
+            isLeft ? MainAxisAlignment.end : MainAxisAlignment.start,
+        crossAxisAlignment:
+            isLeft ? CrossAxisAlignment.center : CrossAxisAlignment.center,
         children: [
           if (isLeft) ...[
             Text(
               name,
               style: const TextStyle(
-                fontSize: 25.0,
+                fontSize: 24.0,
                 color: Colors.white,
               ),
             ),
-            const SizedBox(width: 15.0),
+            const SizedBox(width: 10.0),
           ],
-          InkWell (
+          InkWell(
             borderRadius: BorderRadius.circular(100.0),
             onTap: onPressed,
             child: Container(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(15.0),
               decoration: BoxDecoration(
                 color: AppColors.deepBlue,
                 borderRadius: BorderRadius.circular(100.0),
@@ -52,11 +54,11 @@ class ActionButton extends StatelessWidget {
             ),
           ),
           if (!isLeft) ...[
-            const SizedBox(width: 15.0),
+            const SizedBox(width: 10.0),
             Text(
               name,
               style: const TextStyle(
-                fontSize: 25.0,
+                fontSize: 24.0,
                 color: Colors.white,
               ),
             ),

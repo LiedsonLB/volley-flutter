@@ -9,9 +9,11 @@ class ContainerChartsIcons extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     final horizontalPadding = screenWidth * 0.05;
+    final verticalPadding = screenWidth * 0.03;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding, vertical: verticalPadding),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -25,7 +27,7 @@ class ContainerChartsIcons extends StatelessWidget {
             ),
           ),
           ...List.generate(
-            4,
+            5,
             (index) => const Icon(
               Icons.bar_chart_sharp,
               size: 25,

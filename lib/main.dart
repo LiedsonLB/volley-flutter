@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+// import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+// import 'package:flutter/foundation.dart';
+// import 'dart:io';
 
 import 'package:volleyapp/core/constants/colors.dart';
-import 'package:volleyapp/core/data/database_service.dart';
+// import 'package:volleyapp/core/data/database_service.dart';
 import 'package:volleyapp/features/home/presentation/pages/home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  sqfliteFfiInit();
-  databaseFactory = databaseFactoryFfi;
+  // if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+  //   sqfliteFfiInit();
+  //   databaseFactory = databaseFactoryFfi;
+  // }
 
-  DatabaseService.instance.database;
+  // DatabaseService.instance.database;
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
   runApp(const MyApp());
 }
 

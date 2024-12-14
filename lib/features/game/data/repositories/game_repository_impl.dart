@@ -9,16 +9,16 @@ class GameRepositoryImpl implements GameRepository {
       {required bool isTeam1}) async {
     switch (action) {
       case 'Ace':
-        scoreboardController.addPointTeam1(isTeam1);
+        scoreboardController.registerAce(isTeam1);
         break;
       case 'Attack':
-        scoreboardController.addPointTeam1(isTeam1);
+        scoreboardController.registerAttack(isTeam1);
         break;
       case 'Block':
-        scoreboardController.addPointTeam1(isTeam1);
+        scoreboardController.registerBlock(isTeam1);
         break;
       case 'Error':
-        scoreboardController.addPointTeam1(!isTeam1);
+        scoreboardController.registerError(!isTeam1);
         break;
       default:
         throw ActionInvalideException('action invalide: $action');

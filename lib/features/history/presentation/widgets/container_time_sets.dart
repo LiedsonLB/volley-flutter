@@ -9,9 +9,11 @@ class ContainerTimeSets extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
 
     final horizontalPadding = screenWidth * 0.05;
+    final verticalPadding = screenWidth * 0.03;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+      padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding, vertical: verticalPadding),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -25,12 +27,12 @@ class ContainerTimeSets extends StatelessWidget {
             ),
           ),
           ...List.generate(
-            4,
+            5,
             (index) => const Text(
               '00:00"00"',
               style: TextStyle(
                 color: AppColors.white,
-                fontSize: 18,
+                fontSize: 22,
               ),
             ),
           ),

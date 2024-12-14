@@ -26,7 +26,7 @@ class ContainerTeams extends StatelessWidget {
               width: 40.0 * 5,
               padding: const EdgeInsets.symmetric(vertical: 0.0),
               decoration: BoxDecoration(
-                color: AppColors.blue,
+                color: AppColors.white.withOpacity(0.3),
                 border: Border.all(
                   color: AppColors.white,
                   width: 2.0,

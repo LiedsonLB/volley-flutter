@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:volleyapp/components/button_layout.dart';
 
@@ -24,6 +25,15 @@ class _HomePageState extends State<HomePage> {
   final AddTeam addTeam = AddTeam(TeamRepositoryImpl());
 
   final _teamController = TeamController();
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {

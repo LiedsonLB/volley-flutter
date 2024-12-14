@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:volleyapp/core/network/api_database.dart';
-import 'package:volleyapp/features/history/data/models/game_history.dart';
+// import 'package:intl/intl.dart';
+// import 'package:volleyapp/core/network/api_database.dart';
+// import 'package:volleyapp/features/history/data/models/game_history.dart';
 
 class ScoreboardController {
-  ApiDatabase apiDatabase = ApiDatabase();
+  // ApiDatabase apiDatabase = ApiDatabase();
 
   final String team1;
   final String team2;
@@ -31,17 +31,26 @@ class ScoreboardController {
   int _team1Errors = 0;
   int _team2Errors = 0;
 
-  // Histórico de sets
-  final List<Map<String, int>> _sets = [];
+  int numSets = 0;
 
-  // Notificadores para atualizar a UI
+  final ValueNotifier<List<Map<String, int>>> setsNotifier =
+      ValueNotifier<List<Map<String, int>>>([
+    {"Ziraldos": 21, "Autoconvidados": 25},
+    {"Ziraldos": 21, "Autoconvidados": 25},
+    {"Ziraldos": 21, "Autoconvidados": 25},
+    {"Ziraldos": 21, "Autoconvidados": 25},
+    {"Ziraldos": 21, "Autoconvidados": 25}
+  ]);
+
+  final ValueNotifier<List<Map<String, int>>> teamsVictories =
+      ValueNotifier<List<Map<String, int>>>([]);
+
   final ValueNotifier<int> team1PointsNotifier = ValueNotifier<int>(0);
   final ValueNotifier<int> team2PointsNotifier = ValueNotifier<int>(0);
   final ValueNotifier<int> team1SetsNotifier = ValueNotifier<int>(0);
   final ValueNotifier<int> team2SetsNotifier = ValueNotifier<int>(0);
   final ValueNotifier<bool> team1IsPlayingNotifier = ValueNotifier<bool>(true);
 
-  // Notificadores para estatísticas
   final ValueNotifier<int> team1AcesNotifier = ValueNotifier<int>(0);
   final ValueNotifier<int> team2AcesNotifier = ValueNotifier<int>(0);
 
@@ -54,32 +63,45 @@ class ScoreboardController {
   final ValueNotifier<int> team1ErrorsNotifier = ValueNotifier<int>(0);
   final ValueNotifier<int> team2ErrorsNotifier = ValueNotifier<int>(0);
 
+  final ValueNotifier<bool> isSetFinishedNotifier = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> isGameFinishedNotifier = ValueNotifier<bool>(false);
+
+  final ValueNotifier<String> teamWinner = ValueNotifier<String>('');
+
+  final ValueNotifier<int> currentSetNotifier = ValueNotifier<int>(1);
+
   ScoreboardController({required this.team1, required this.team2});
 
-  Future<void> startNewGame() async {
-    try {
-      String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  // Future<void> startNewGame() async {
+  //   try {
+  //     String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
-      final gameSave = GameSave(
-        date: formattedDate,
-        winner: '',
-        team1Name: 'Time A',
-        team2Name: 'Time B',
-        createdAt: DateTime.now().toIso8601String(),
-        sets: [],
-      );
+  //     final gameSave = GameSave(
+  //       date: formattedDate,
+  //       winner: '',
+  //       team1Name: 'Time A',
+  //       team2Name: 'Time B',
+  //       createdAt: DateTime.now().toIso8601String(),
+  //       sets: [],
+  //     );
 
-      gameId = await apiDatabase.saveGame(gameSave);
+  //     gameId = await apiDatabase.saveGame(gameSave);
 
-      print('Jogo iniciado com ID: $gameId');
+  //     print('Jogo iniciado com ID: $gameId');
 
-      // Agora você pode começar a adicionar sets a esse jogo.
-    } catch (e) {
-      print('Erro ao iniciar o jogo: $e');
-    }
+  //   } catch (e) {
+  //     print('Erro ao iniciar o jogo: $e');
+  //   }
+  // }
+
+  String getTeam1() {
+    return team1;
   }
 
-  // Adiciona ponto
+  String getTeam2() {
+    return team2;
+  }
+
   void addPointTeam1(bool isTeam1) {
     if (isTeam1) {
       _team1Points++;
@@ -94,7 +116,6 @@ class ScoreboardController {
     verifySetWinner();
   }
 
-  // Registra Ace
   void registerAce(bool isTeam1) {
     if (isTeam1) {
       _team1Aces++;
@@ -106,7 +127,6 @@ class ScoreboardController {
     addPointTeam1(isTeam1);
   }
 
-  // Registra Bloqueio
   void registerBlock(bool isTeam1) {
     if (isTeam1) {
       _team1Blocks++;
@@ -118,7 +138,6 @@ class ScoreboardController {
     addPointTeam1(isTeam1);
   }
 
-  // Registra Ataque
   void registerAttack(bool isTeam1) {
     if (isTeam1) {
       _team1Attacks++;
@@ -130,7 +149,6 @@ class ScoreboardController {
     addPointTeam1(isTeam1);
   }
 
-  // Registra Erro
   void registerError(bool isTeam1) {
     if (isTeam1) {
       _team2Errors++;
@@ -142,52 +160,73 @@ class ScoreboardController {
     addPointTeam1(!isTeam1);
   }
 
-  // Verifica vencedor do set
   void verifySetWinner() {
     if (_team1Points >= 25 && _team1Points - _team2Points >= 2) {
+      teamWinner.value = team1;
       _team1Sets++;
+      isSetFinishedNotifier.value = true;
       team1SetsNotifier.value = _team1Sets;
-      _registerSet(team1Score: _team1Points, team2Score: _team2Points);
-      apiDatabase.saveSet(gameId, {
-        'game_time': DateTime.now().toIso8601String(),
-        'set_number': _sets.length,
-        'team1_aces': team1AcesNotifier.value,
-        'team2_aces': team2AcesNotifier.value,
-        'team1_attacks': team1AttacksNotifier.value,
-        'team2_attacks': team2AttacksNotifier.value,
-        'team1_blocks': team1BlocksNotifier.value,
-        'team2_blocks': team2BlocksNotifier.value,
-        'team1_errors': team1ErrorsNotifier.value,
-        'team2_errors': team2ErrorsNotifier.value,
-      });
-      resetPoints();
+      _registerSet(_team1Points, _team2Points);
       checkGameWinner();
-      print('Set vencido por $team1');
+      resetPoints();
     } else if (_team2Points >= 25 && _team2Points - _team1Points >= 2) {
+      teamWinner.value = team2;
       _team2Sets++;
+      isSetFinishedNotifier.value = true;
       team2SetsNotifier.value = _team2Sets;
-      _registerSet(team1Score: _team1Points, team2Score: _team2Points);
-      resetPoints();
+      _registerSet(_team1Points, _team2Points);
       checkGameWinner();
-      print('Set vencido por $team2');
+      resetPoints();
     }
   }
 
-  // Verifica vencedor do jogo
   void checkGameWinner() {
     if (_team1Sets == 3) {
+      final team1Index = teamsVictories.value
+          .indexWhere((element) => element.keys.first == team1);
+      if (team1Index != -1) {
+        final team1Victories = teamsVictories.value[team1Index][team1] ?? 0;
+        teamsVictories.value[team1Index][team1] = team1Victories + 1;
+      } else {
+        teamsVictories.value = [
+          ...teamsVictories.value,
+          {team1: 1}
+        ];
+      }
+      teamWinner.value = team1;
+      isSetFinishedNotifier.value = false;
+      isGameFinishedNotifier.value = true;
       _endGame(team1Wins: true);
+      return;
     } else if (_team2Sets == 3) {
+      final team2Index = teamsVictories.value
+          .indexWhere((element) => element.keys.first == team2);
+      if (team2Index != -1) {
+        final team2Victories = teamsVictories.value[team2Index][team2] ?? 0;
+        teamsVictories.value[team2Index][team2] = team2Victories + 1;
+      } else {
+        teamsVictories.value = [
+          ...teamsVictories.value,
+          {team2: 1}
+        ];
+      }
+      teamWinner.value = team2;
+      isSetFinishedNotifier.value = false;
+      isGameFinishedNotifier.value = true;
       _endGame(team1Wins: false);
+      return;
     }
   }
 
-  void _registerSet({required int team1Score, required int team2Score}) {
-    _sets.add({'team1': team1Score, 'team2': team2Score});
-    print('Set registrado: $_sets');
+  void _registerSet(int team1Score, int team2Score) {
+    final newSet = {team1: team1Score, team2: team2Score};
+    setsNotifier.value = [...setsNotifier.value, newSet];
+    print('Set registrado: ${setsNotifier.value}');
   }
 
   void resetPoints() {
+    numSets++;
+    currentSetNotifier.value = numSets + 1;
     _team1Points = 0;
     _team2Points = 0;
     team1PointsNotifier.value = _team1Points;
@@ -196,7 +235,6 @@ class ScoreboardController {
   }
 
   void _endGame({required bool team1Wins}) {
-    print('Jogo Encerrado! ${team1Wins ? team1 : team2} venceu!');
     stop();
   }
 
@@ -218,7 +256,14 @@ class ScoreboardController {
     _team1Errors = 0;
     _team2Errors = 0;
 
-    _sets.clear();
+    teamWinner.value = '';
+
+    numSets = 0;
+
+    isGameFinishedNotifier.value = false;
+    isSetFinishedNotifier.value = false;
+
+    currentSetNotifier.value = 1;
 
     team1PointsNotifier.value = _team1Points;
     team2PointsNotifier.value = _team2Points;
